@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
 import { getData } from './api/getmeteo';
-import temp from "./api/data";
+import Semaine from './components/Semaine';
 
 //lettre en BAUHAUS 93
 
@@ -12,36 +12,53 @@ export default class App extends React.Component {
         this._meteo = []
     }
 
-    componentDidMount() {
-        this._loadData();
-    }
-    
-    _loadData(){
+    _loadData() {
         getData().then(data => {
             this._meteo = data;
-            console.log(this._meteo);
+            this._meteo = this.sortData(this._meteo);
         });
+    }
+
+    sortData(apiResponse) {
+        var res = {};
+        apiResponse['list'].forEach(function (element) {
+            var jour = element['dt_txt'].split(' ');
+            if (!res[jour[0]]) {
+                var structObj = {'temp_min': element['main']['temp_min'], 'temp_max': element['main']['temp_max'], 'rain': false, 'vent': element['wind']['speed']};
+                var test = jour[0];
+                res[jour[0]] = structObj;
+            } else {
+                if (res[jour[0]]['temp_min'] > element['main']['temp_min']) {
+                    res[jour[0]]['temp_min'] = element['main']['temp_min'];
+                }
+                if (res[jour[0]]['temp_max'] < element['main']['temp_max']) {
+                    res[jour[0]]['temp_max'] = element['main']['temp_max'];
+                }
+                if (element['rain']) {
+                    res[jour[0]]['rain'] = true;
+                }
+                if (res[jour[0]]['vent'] < element['wind']['speed']) {
+                    res[jour[0]]['vent'] = element['wind']['speed'];
+                }
+            }
+        });
+        return res;
     }
 
     render() {
         return (
-                <View style={styles.main_container}>
-                    <Button style={{height: 250 , width:220}} title='Rechercher' onPress={() => this._loadData()}/>
-                
-                    <FlatList
-                        data={this._meteo}
-                        renderItem={({item}) => <Text>{item.cnt}</Text>}
-                        />
+                <View style={styles.main_container}> 
+                    <Semaine donnee = {this._loadData()}/>
                 </View>
-                    );
-                }
-            }
+                );
+    }
+}
 
-            const styles = StyleSheet.create({
-                container: {
-                    flex: 1,
-                    backgroundColor: '#faf',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                },
-            });
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});

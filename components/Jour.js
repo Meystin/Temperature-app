@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 
 
-export default class Jour extends React.Component {
+class Jour extends React.Component {
         render(){
             
         }
