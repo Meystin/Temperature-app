@@ -9,7 +9,12 @@ export default class App extends React.Component {
 
     constructor(props) {
         super(props);
-        this._meteo = []
+        this._meteo = [];
+    }
+
+    componentWillMount() {
+        this._loadData();
+        console.log("composent mounted");
     }
 
     _loadData() {
@@ -44,11 +49,16 @@ export default class App extends React.Component {
         });
         return res;
     }
-
+    
+    test(){
+        console.log(this._meteo);
+    }
+ //demander à charger semaine après avoir recu les données
     render() {
+        console.log(this._meteo)
         return (
                 <View style={styles.main_container}> 
-                    <Semaine donnee = {this._loadData()}/>
+                    <Semaine donnee = {this._meteo}/>
                 </View>
                 );
     }
