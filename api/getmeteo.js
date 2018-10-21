@@ -1,15 +1,5 @@
+/*id weather : aca2124f0d11437c7406f8490e604e42 ou c5a9e2affb50de661993e1b9041a9c45*/
 
-
-/*
- * "id": 6454414,
-    "name": "Lille",
-    "country": "FR",
-    "coord": {
-      "lon": 3.06667,
-      "lat": 50
-
-id weather : aca2124f0d11437c7406f8490e604e42
- */
 const token = "aca2124f0d11437c7406f8490e604e42"
 const ville = "Lille"
 const pays = "fr"

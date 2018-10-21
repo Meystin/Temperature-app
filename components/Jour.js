@@ -11,44 +11,48 @@ class Jour extends React.Component {
 
     constructor(props) {
         super(props);
-        this.donnee = this.props.donnee;
-        this.temp_min = 13, 12 + 0.6215 * this.donnee.temp_min + (0.3965 * this.donnee.temp_min - 11.37) * Math.pow(this.donnee.vent, 0.16)
-        this.temp_max = 13, 12 + 0.6215 * this.donnee.temp_max + (0.3965 * this.donnee.temp_max - 11.37) * Math.pow(this.donnee.vent, 0.16)
-        console.log(this.temp_max)
+        this.donnee = Object.values(props.donnee);
+        this.temp_min = 0;
+        this.temp_max = 0;
+    }
+    
+    updateData(){
+        this.temp_min = 13.12 + 0.6215 * this.props.donnee.temp_min + (0.3965 * this.props.donnee.temp_min - 11.37) * Math.pow(this.props.donnee.vent, 0.16);
+        this.temp_max = 13.12 + 0.6215 * this.props.donnee.temp_max + (0.3965 * this.props.donnee.temp_max - 11.37) * Math.pow(this.props.donnee.vent, 0.16);
+        console.log(this.temp_max);
+        console.log(this.temp_min);
     }
 
     getinformation() {
-        var image = [];
-        if (this.donnee.pluie) {
-            image.push(<View><Pluie/></View>)
+        this.updateData();
+        var jour = [];
+        if (this.props.donnee.pluie) {
+            jour.push(<View><Pluie/></View>)
         }
-        if (this.temp_min > 19 && this.temp_max < 27) {
-            image.push(<View><Sweet/></View>)
-        } else if (this.temp_min < 19) {
-            image.push(<View><Manteau/></View>)
+        if (this.temp_min >= 16 && this.temp_max < 27) {
+            jour.push(<View><Sweet/></View>)
+        } else if (this.temp_min < 16) {
+            jour.push(<View><Manteau/></View>)
         }
         if (this.temp_min < 13) {
-            image.push(<View><Pull/></View>)
+            jour.push(<View><Pull/></View>)
         }
-        if (this.donnee.temp_min < 13) {
-            image.push(<View><Couette/></View>)
-        }if (this.temp_min < 13) {
-            image.push(<View><Bas/></View>)
+        if (this.props.donnee.temp_min < 13) {
+            jour.push(<View><Couette/></View>)
         }
-        return image;
+        if (this.temp_min < 13) {
+            jour.push(<View><Bas/></View>)
+        }
+        return jour;
     }
 
     render() {
-        var indication = getinformation();
         return (
-                            <View>
-                                <View>
-                                    <View><Text>Meteo</Text></View>
-                                </View>
-                            
-                                { indication }
-                            </View>
-                            )
+                <View>
+                    <Text>{this.props.donnee.date}</Text>
+                    {this.getinformation()}
+                </View>
+                )
     }
 }
 export default Jour 
