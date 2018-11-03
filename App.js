@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, Button} from 'react-native';
+import { StyleSheet, Text, View, FlatList, Button, TouchableOpacity} from 'react-native';
 import { getData } from './api/getmeteo';
-import Semaine from "./components/Semaine"
-
+import Semaine from "./components/Semaine";
+import Refresh from "./components/Refresh";
 //lettre en BAUHAUS 93
 
 export default class App extends React.Component {
@@ -50,27 +50,31 @@ export default class App extends React.Component {
         return res;
     }
 
-    test(test) {
-        test.forEach(function(element){
-            
-        });
-    }
-
     render() {
         return (
                 <View>
-                    <Text>Meteo</Text>
+                    <View style={styles.container}><Text style={[styles.title, this.props.isActive && styles.activeTitle]}>Meteo</Text></View>
                     <Semaine donnee={this.state.donnee}/>
+                    <View style={{alignItems: 'center'}}>
+                        <Refresh>
+                            <TouchableOpacity onPress={() => {alert("you clicked me")}}></TouchableOpacity>
+                        </Refresh></View>
                 </View>
                         );
-                    }
-                }
+        }//this._loadData()
+    }
 
-                const styles = StyleSheet.create({
-                    container: {
-                        flex: 1,
-                        backgroundColor: '#fff',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }
-                });
+    const styles = StyleSheet.create({
+        container: {
+            alignItems: 'center',
+            borderWidth: 0.5
+        },
+        title: {
+            fontSize: 19,
+            fontWeight: 'bold'
+        },
+        refresh: {
+            alignItems: 'stretch',
+            justifyContent: 'center'
+        }
+    });

@@ -1,25 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, Dimensions} from 'react-native';
 import Jour from './Jour';
 
 class Semaine extends React.Component {
-    
-    split(){
+
+    split() {
         var jours = Object.values(this.props.donnee);
         var infoJour = [];
-        jours.forEach(function(elm){
-            infoJour.push(<View><Jour donnee={elm}/></View>)
-        });
-        return infoJour;
-    }
+        var counter = 0;
+        jours.forEach(function (elm) {
+            if (counter < 3) {
+                infoJour.push(<View style={{flex: 2, backgroundColor: 'skyblue'}}><Jour donnee={elm}/></View>)
+                    counter ++;
+                }
+            });
+            return infoJour;
+        }
 
-    render() {
-        return (
-                <View>
-                    <Text>Semaine</Text>
-                    {this.split()}
-                </View>
-                )
-    }
-}
-export default Semaine 
+        render() {
+            return (
+                    <View style={{flexDirection: 'row'}}>
+                        {this.split()}
+                    </View>
+                                )
+                    }
+        }
+        export default Semaine 

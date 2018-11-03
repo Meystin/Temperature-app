@@ -19,8 +19,6 @@ class Jour extends React.Component {
     updateData(){
         this.temp_min = 13.12 + 0.6215 * this.props.donnee.temp_min + (0.3965 * this.props.donnee.temp_min - 11.37) * Math.pow(this.props.donnee.vent, 0.16);
         this.temp_max = 13.12 + 0.6215 * this.props.donnee.temp_max + (0.3965 * this.props.donnee.temp_max - 11.37) * Math.pow(this.props.donnee.vent, 0.16);
-        console.log(this.temp_max);
-        console.log(this.temp_min);
     }
 
     getinformation() {
