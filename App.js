@@ -17,7 +17,6 @@ export default class App extends React.Component {
     }
 
     _loadData() {
-        console.log("loadDATA")
         getData().then(data => {
             let meteo = data;
             meteo = this.sortData(meteo);
@@ -45,7 +44,8 @@ export default class App extends React.Component {
                 if (res[jour[0]]['vent'] < element['wind']['speed']) {
                     res[jour[0]]['vent'] = element['wind']['speed'];
                 }
-            }
+            }                       
+
         });
         return res;
     }
@@ -53,15 +53,15 @@ export default class App extends React.Component {
     render() {
         return (
                 <View>
+        <View />
                     <View style={styles.container}><Text style={[styles.title, this.props.isActive && styles.activeTitle]}>Meteo</Text></View>
                     <Semaine donnee={this.state.donnee}/>
                     <View style={{alignItems: 'center'}}>
-                        <Refresh>
-                            <TouchableOpacity onPress={() => {alert("you clicked me")}}></TouchableOpacity>
-                        </Refresh></View>
+                            <TouchableOpacity onPress={() => {this._loadData()}}><Refresh/></TouchableOpacity>
+                        </View>
                 </View>
                         );
-        }//this._loadData()
+        }
     }
 
     const styles = StyleSheet.create({
